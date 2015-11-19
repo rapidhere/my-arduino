@@ -1,4 +1,4 @@
--D_BUILD_demo_blink
+-D_BUILD_demo_1602ahello
 
 -DF_CPU=16000000L
 -DARDUINO_ARCH_AVR
