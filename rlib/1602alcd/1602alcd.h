@@ -8,8 +8,10 @@
 #ifndef _R_1602ALCD_H
 #define _R_1602ALCD_H 1
 
-#include "types.h"
+#include "rlib/types.h"
 #include "Arduino.h"
+
+namespace rapid {
 
 #define LCD1602A_N_DATA_PINS 8
 
@@ -67,5 +69,7 @@ void lcd1602a_initialize(struct Lcd1602aT *l);
 
 void lcd1602a_write_command(struct Lcd1602aT *l, int command);
 void lcd1602a_write_data(struct Lcd1602aT *l, int data);
+
+} // namespce rapid
 
 #endif

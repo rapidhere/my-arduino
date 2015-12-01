@@ -1,8 +1,7 @@
 #ifdef _BUILD_demo_blink
 
-#define LED_PIN 13
-
-#include "framework.h"
+#include "rlib/framework.h"
+#include "rlib/commondata.h"
 
 void setup() {
     pinMode(LED_PIN, OUTPUT);     // set pin as output

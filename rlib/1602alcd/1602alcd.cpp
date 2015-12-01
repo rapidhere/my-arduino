@@ -1,4 +1,6 @@
-#include "1602alcd/1602alcd.h"
+#include "1602alcd.h"
+
+namespace rapid {
 
 static void pulse_enable(struct Lcd1602aT *l) {
     digitalWrite(l->e, HIGH);
@@ -35,8 +37,6 @@ void lcd1602a_initialize(struct Lcd1602aT *l) {
     // clear screen
     lcd1602a_write_command(l, LCD1602A_CLR);
     delay(100);
-    int* x = 0;
-    int y = *x;
 }
 
 void lcd1602a_write_command(struct Lcd1602aT *l, int command) {
@@ -71,3 +71,5 @@ void lcd1602a_write_data(struct Lcd1602aT *l, int data) {
 }
 
 #undef LCD1602A_ENABLE
+
+} // namespace rapid

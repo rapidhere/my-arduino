@@ -1,10 +1,10 @@
--D_BUILD_demo_1602ahello
+-D_BUILD_demo_rwifi
 
 -DF_CPU=16000000L
 -DARDUINO_ARCH_AVR
 -DARDUINO_AVR_MEGA2560
 -DARDUINO=10606
 -DPLATFORMIO=020305
--Irlib
+-I.
 -I.pioenvs/megaatmega2560/FrameworkArduino
 -I.pioenvs/megaatmega2560/FrameworkArduinoVariant

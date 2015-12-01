@@ -1,0 +1,89 @@
+#include "rlib/wifi/esp8266.h"
+
+namespace rapid {
+
+const uint8 Esp8266WifiBee::MODE_STATION = 1;
+const uint8 Esp8266WifiBee::MODE_SOFT_AP = 2;
+const uint8 Esp8266WifiBee::MODE_BOTH = 3;
+
+void Esp8266WifiBee::debug(String info) {
+    if(debug)
+        debug->write(info + "\r\n");
+}
+
+Esp8266WifiBee::Esp8266WifiBee(HardwareSerial* _s, Stream* _d) {
+    wifiSerial = _s;
+    debugSerial = _d;
+}
+
+void Esp8266WifiBee::begin(uint32 baudrate) {
+    wifiSerial->begin(baudrate);
+    
+    debug("serial start");
+}
+
+void Esp8266WifiBee::setMode(uint8 mode) {
+    switch(mode) {
+    case MODE_SOFT_AP:
+        write("AT+CWMODE=1\r\n");
+        break;
+    case MODE_STATION:
+        write("AT+CWMODE=2\r\n");
+        break;
+    case MODE_BOTH:
+        write("AT+CWMODE=3\r\n");
+        break;
+    }
+
+    // read up ok
+    readLine();
+
+    return;
+}
+
+String Esp8266WifiBee::readLine() {
+    String ret;
+    char data;
+    uint8 len = 0;
+
+    while(true) {
+        data = wifiSerial->read();
+
+        if(data > 0) {
+            len ++;
+            ret += data;
+
+            if(len >= 2 && ret[len - 2] == '\r' && ret[len - 1] == '\n')
+                break;
+        }
+    }
+
+    return ret;
+}
+
+uint8 Esp8266WifiBee::getMode() {
+    write("AT+CWMODE?\r\n");
+
+    // read up `+CWMODE:?`
+    String ret = readLine();
+    return ret[ret.length() - 3] - '0';
+}
+
+void Esp8266WifiBee::restart() {
+    write("AT+RST\r\n");
+
+    // read up possible ok
+    if(wifiSerial->available())
+        readLine();
+}
+
+bool Esp8266WifiBee::connectAP(String ssid, String pwd) {
+    return false;
+}
+
+inline void Esp8266WifiBee::write(String cmd) {
+    wifiSerial->write(cmd.c_str());
+    wifiSerial->flush();
+}
+
+} // namespace rapid
