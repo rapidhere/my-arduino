@@ -10,6 +10,7 @@ namespace rapid {
 
 #define SERVER_IP "192.168.1.101"
 #define SERVER_PORT "4040"
+#define SERVER_PORT_NUM 4040
 
 }
 
