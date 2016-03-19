@@ -24,7 +24,8 @@ uint8 DHT22::loadData() {
     noInterrupts();
 
     // mention sensor to load data
-    pinMode(pin, OUTPUT);
+    pinHigh();
+    delay(250);
     pinLow();
     delay(10);
     pinHigh();
@@ -44,9 +45,6 @@ uint8 DHT22::loadData() {
           delayMicroseconds(COUNTER_DELAY_US);
         }
 
-        if(counter >= 200)
-            break;
-
         // read bit
         counter = 0;
         while(pinRead() == HIGH) {
@@ -54,12 +52,10 @@ uint8 DHT22::loadData() {
             delayMicroseconds(COUNTER_DELAY_US);
         }
 
-        if(counter >= 200)
-            break;
-
         // get bit and store
         bit = (counter >= MIN_TRUE_COUNTER ? 1 : 0);
-        data[i >> 3] |= (bit << (i & 0x3));
+        data[i >> 3] <<= 1;
+        data[i >> 3] |= bit;
     }
 
     interrupts();
@@ -69,7 +65,7 @@ uint8 DHT22::loadData() {
     // then parse data
     // checksum check
     if(data[4] != (data[0] + data[1] + data[2] + data[3]) & 0xff) {
-        return 0;
+        return 1;
     }
 
     humidity = (data[0] << 8 | data[1]);

@@ -26,7 +26,7 @@ rapid::DHT22 dht(TEMP_SENSOR_DATA_PIN);
 rapid::uint8 setupWifi();
 rapid::uint8 setupSensor();
 
-void sendData(int temperature);
+void sendData(rapid::int32 temperature);
 
 void setup() {
     // wait for devices
@@ -56,10 +56,9 @@ void loop() {
     rapid::blink(1000);
 
     dht.loadData();
-    // sendData(dht.getTemperature());
 }
 
-void sendData(int temperature) {
+void sendData(rapid::int32 temperature) {
     String msg = "GET /sensor/echo?message=";
     msg += temperature;
     msg += " HTTP/1.1\r\n\r\n";
