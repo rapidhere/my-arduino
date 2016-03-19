@@ -1,4 +1,4 @@
--D_BUILD_demo_rwifi
+-D_BUILD_domon
 
 -DF_CPU=16000000L
 -DARDUINO_ARCH_AVR
